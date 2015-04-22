@@ -8,7 +8,7 @@ uses ebay API to access to search capabilities on the eBay platform
 
     `{
         "require": {
-            "medyes/ebay-api": "~0.1"
+            "shopapi/ebay-api": "~0.1"
         }
     }`
 ## Step 2: Enable the bundle

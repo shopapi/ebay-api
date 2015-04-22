@@ -1,5 +1,5 @@
 {
-    "name": "medyes/ebay-api",
+    "name": "shopapi/ebay-api",
     "description": "uses ebay API to access to search capabilities on the eBay platform",
     "type": "library",
     "keywords": [
@@ -11,7 +11,7 @@
         "trading"
 
     ],
-    "homepage": "https://github.com/medyes/ebay-api",
+    "homepage": "https://github.com/shopapi/ebay-api",
     "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
@@ -28,7 +28,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/medyes/ebay-api"
+            "url": "https://github.com/shopapi/ebay-api"
         }
     ]
 }
