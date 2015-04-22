@@ -1,0 +1,22 @@
+parameters:
+    myw_ebay_api_component.class: Myw\EbayApiBundle\Component\EbayApiComponent
+    myw_ebay_api_manager.class: Myw\EbayApiBundle\Manager\EbayApiManager
+    myw_ebay_api_service_configurator.class: Myw\EbayApiBundle\Configurator\EbayApiConfigurator
+    myw_ebay_api_call.class: Myw\EbayApiBundle\Call\MakeCall
+
+services:
+    myw_ebay_api_manager:
+        class:     %myw_ebay_api_manager.class%
+
+    myw_ebay_api_service_configurator:
+        class:     %myw_ebay_api_service_configurator.class%
+        arguments: ["@myw_ebay_api_manager"]
+
+    myw_ebay_api_component:
+        class: %myw_ebay_api_component.class%
+        configurator: ["@myw_ebay_api_service_configurator", configure]
+
+    myw_ebay_api_call:
+        class: %myw_ebay_api_call.class%
+        arguments:
+              serializer: @jms_serializer

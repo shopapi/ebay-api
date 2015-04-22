@@ -1,0 +1,34 @@
+{
+    "name": "medyes/ebay-api",
+    "description": "uses ebay API to access to search capabilities on the eBay platform",
+    "type": "library",
+    "keywords": [
+        "ebay",
+        "api",
+        "shopping",
+        "merchandising",
+        "finding",
+        "trading"
+
+    ],
+    "homepage": "https://github.com/medyes/ebay-api",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mohamed Ben Henda",
+            "email": "benhenda.med@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Myw\\EbayApiBundle\\": "Myw/EbayApiBundle"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/medyes/ebay-api"
+        }
+    ]
+}
