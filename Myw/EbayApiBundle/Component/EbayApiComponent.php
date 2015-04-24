@@ -22,13 +22,15 @@ class EbayApiComponent implements EbayComponentInterface {
     protected $parameters;
     protected $keys;
     protected $component;
+    protected $format;
+    protected $siteId = 0; // US by default
 
     public function instanceComponent($api, $method, $mode)
     {
         $className = 'Myw\\EbayApiBundle\\Component\\' . $api . '\\' . ucfirst($method) . 'Component';
 
-        $component = new $className($this->getParameters());
-        $keys = ($mode === self::MODE_PRODUCT) ? $this->parameters['application_keys']['production'] : $this->parameters['application_keys']['sandbox'];
+        $component = new $className($this->getKeys());
+       /* $keys = ($mode === self::MODE_PRODUCT) ? $this->parameters['application_keys']['production'] : $this->parameters['application_keys']['sandbox'];*/
         //$component->setApiName($api)->setCallName($method)->setMode($mode)->setKeys($keys);
 
         return $component;
@@ -50,7 +52,7 @@ class EbayApiComponent implements EbayComponentInterface {
 
     public function setKeys($config)
     {
-        $this->parameters = $config;
+        $this->keys = $config;
         return $this;
     }
 
@@ -59,8 +61,29 @@ class EbayApiComponent implements EbayComponentInterface {
         return $this->keys;
     }
 
-    public function call(){
-
+    public function getFormat()
+    {
+        return $this->format;
     }
+
+    public function setFormat($format)
+    {
+        $this->format = $format;
+        return $this;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    public function setMethod($method)
+    {
+        $this->method = $method;
+        return $this;
+    }
+
+
+
 
 }

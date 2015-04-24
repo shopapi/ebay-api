@@ -30,7 +30,7 @@ class MywEbayApiExtension extends Extension
 
         $componentServiceDefintion = $container->getDefinition( 'myw_ebay_api_component' );
 
-        print_r($config);
+        //print_r($config);
         $componentServiceDefintion->addMethodCall( 'setConfig', array( $config ) );
     }
 }

@@ -10,7 +10,7 @@ services:
 
     myw_ebay_api_service_configurator:
         class:     %myw_ebay_api_service_configurator.class%
-        arguments: ["@myw_ebay_api_manager"]
+        arguments: ["@myw_ebay_api_manager", "@myw_ebay_api_call"]
 
     myw_ebay_api_component:
         class: %myw_ebay_api_component.class%
