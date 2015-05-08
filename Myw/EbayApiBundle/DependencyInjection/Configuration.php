@@ -28,7 +28,10 @@ class Configuration implements ConfigurationInterface
                         ->thenInvalid('The auth_token must be defined')
                     ->end()
                 ->end()
-
+                ->scalarNode('version')
+                ->end()
+                ->scalarNode('warning_level')
+                ->end()
                 ->arrayNode('sandbox')
                     ->children()
                         ->scalarNode('dev_id')->cannotBeEmpty()->end()

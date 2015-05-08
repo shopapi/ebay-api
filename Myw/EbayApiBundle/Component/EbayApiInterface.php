@@ -11,10 +11,5 @@ namespace Myw\EbayApiBundle\Component;
 
 interface EbayApiInterface
 {
-
-    public function setApi($api);
-
-    public function setMethod($method);
-
     public function setMode($mode);
 }

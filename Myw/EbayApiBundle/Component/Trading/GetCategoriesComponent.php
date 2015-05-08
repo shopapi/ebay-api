@@ -14,49 +14,33 @@ use JMS\Serializer\Annotation\SerializedName;
 use Myw\EbayApiBundle\Component\EbayApiComponent;
 use Myw\EbayApiBundle\Component\EbayApiInterface;
 use Myw\EbayApiBundle\Component\Trading\EbayApiTradingComponent;
+use JMS\Serializer\Annotation\Expose;
 
-class GetCategoriesComponent extends EbayApiComponent implements EbayApiInterface{
+use JMS\Serializer\Annotation\XmlNamespace;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Type;
+use Myw\EbayApiBundle\Type\RequesterCredentials;
 
-    private $input;
-    protected $siteId = 0; // US by default
+/**
+ * @XmlNamespace(uri="urn:ebay:apis:eBLBaseComponents")
+ * @XmlRoot("GetCategoriesRequest")
+ * @ExclusionPolicy(value="none")
+ */
+class GetCategoriesComponent extends EbayApiTradingComponent implements EbayApiInterface{
 
     const URL_SANDBOX = 'https://api.sandbox.ebay.com/ws/api.dll';
     const URL_PRODUCT = 'https://api.ebay.com/ws/api.dll';
-    const API_VERSION = 903;
-
-
-    public function setApi($api){
-
-    }
-
-    public function setMethod($method){
-
-    }
-
-    public function setMode($mode){
-
-    }
-
-
-    public function getKeys(){
-
-        parent::getKeys();
-    }
-
-
 
     /**
-     * @XmlList(inline = true, entry = "CategoryParent")
-     */
-    private $categoryParent;
-
-    /**
+     * @Expose
      * @var string
      * @SerializedName("CategorySiteID")
      */
     private $categorySiteID;
 
     /**
+     * @Expose
      * @var integer
      * @SerializedName("LevelLimit")
      */
@@ -69,6 +53,38 @@ class GetCategoriesComponent extends EbayApiComponent implements EbayApiInterfac
 
 
     /**
+     * @Expose
+     * @XmlList(entry = "CategoryParent")
+     * @SerializedName("CategoryParent")
+     */
+    private $categoryParent;
+
+    /**
+     * @Expose
+     * @XmlList(entry = "DetailLevel")
+     * @SerializedName("DetailLevel")
+     */
+    protected $detailLevel;
+    /**
+     * @return array
+     */
+    public function getDetailLevel()
+    {
+        return $this->detailLevel;
+    }
+
+    /**
+     * @param integer $detailLevel
+     * @return $this
+     */
+    public function setDetailLevel($detailLevel)
+    {
+        $this->detailLevel = $detailLevel;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getCategoryParent()
@@ -77,10 +93,10 @@ class GetCategoriesComponent extends EbayApiComponent implements EbayApiInterfac
     }
 
     /**
-     * @param array $categoryParent
+     * @param int $categoryParent
      * @return $this
      */
-    public function setCategoryParent(array $categoryParent)
+    public function setCategoryParent($categoryParent)
     {
         $this->categoryParent = $categoryParent;
 
@@ -143,54 +159,5 @@ class GetCategoriesComponent extends EbayApiComponent implements EbayApiInterfac
 
         return $this;
     }
-
-    /**
-     * @param string $value
-     * @return $this
-     */
-    public function setInput($value)
-    {
-        $this->input = $value;
-
-        return $this;
-    }
-
-    public function getInput()
-    {
-        return $this->input;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRequestUrl()
-    {
-        if ($this->mode === self::MODE_PRODUCT) {
-            return $this::URL_PRODUCT;
-        } else {
-            return $this::URL_SANDBOX;
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function getHeaders()
-    {
-        return
-            [
-                'X-EBAY-API-CALL-NAME:' . $this->getMethod(),
-                'X-EBAY-API-SITEID:' . $this->siteId,
-                // Site 0 is for US
-                'X-EBAY-API-APP-NAME:' . $this->keys['app_id'],
-                'X-EBAY-API-DEV-NAME:' . $this->keys['dev_id'],
-                'X-EBAY-API-CERT-NAME:' . $this->keys['cert_id'],
-                'X-EBAY-API-COMPATIBILITY-LEVEL:' . self::API_VERSION,
-                'X-EBAY-API-REQUEST-ENCODING:XML',
-                // for a POST request, the response by default is in the same format as the request
-                'Content-Type:text/xml;charset=utf-8',
-            ];
-    }
-
 
 }

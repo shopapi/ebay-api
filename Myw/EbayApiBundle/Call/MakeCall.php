@@ -11,6 +11,7 @@
 
     use Myw\EbayApiBundle\Component\EbayApiInterface;
     use JMS\Serializer\Serializer;
+    use JMS\Serializer\SerializerBuilder;
 
 class MakeCall {
 
@@ -23,15 +24,17 @@ class MakeCall {
 
     public function getResponse(EbayApiInterface $component)
     {
-        $input = $this->getPostFields($component);
-        $component->setInput($input);
+
+        $xmlRequest = $this->getPostFields($component);
+        $component->setXmlRequest($xmlRequest);
+
         $ch = curl_init($component->getRequestUrl());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $component->getHeaders()); //set headers using the above array of headers
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $component->getHeaders());
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
         if (isset($component->keys['timeout'])) {
             curl_setopt($ch, CURLOPT_TIMEOUT, $component->keys['timeout']);
         }

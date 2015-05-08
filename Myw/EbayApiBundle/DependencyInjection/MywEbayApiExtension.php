@@ -28,9 +28,8 @@ class MywEbayApiExtension extends Extension
         $loader->load('services.yml');
 
 
-        $componentServiceDefintion = $container->getDefinition( 'myw_ebay_api_component' );
+        $componentServiceDefintion = $container->getDefinition( 'myw_ebay_api_manager' );
 
-        //print_r($config);
         $componentServiceDefintion->addMethodCall( 'setConfig', array( $config ) );
     }
 }

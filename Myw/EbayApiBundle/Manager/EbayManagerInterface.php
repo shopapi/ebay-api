@@ -12,11 +12,6 @@ namespace Myw\EbayApiBundle\Manager;
 
 interface EbayManagerInterface {
 
-    public function getApi();
-    public function getMethod();
-    public function getMode();
-    public function setApi($api);
-    public function setMethod($method);
-    public function setMode($mode);
+
 
 }

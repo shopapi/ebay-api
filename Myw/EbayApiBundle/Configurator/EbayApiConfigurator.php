@@ -28,10 +28,6 @@ class EbayApiConfigurator {
     {
 
         $oComponent = $ebayComponent->instanceComponent($this->apiManager->getApi(), $this->apiManager->getMethod(), $this->apiManager->getMode() );
-       // $oComponent->getConfig();
-       // $ebayComponent->setComponent($oComponent);
-       // print_r($oComponent);exit();
-       // $oComponent->call($this->serializer);
         $this->call->getResponse($oComponent);
     }
 }
