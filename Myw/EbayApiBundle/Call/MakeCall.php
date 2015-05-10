@@ -41,12 +41,45 @@ class MakeCall {
         $data = curl_exec($ch);
         curl_close($ch);
 
-        return preg_replace('/></', ">\n<", $data);
+        $arrayResponse = $this->xmlToarray($data);
+        return $arrayResponse;
     }
 
     private function getPostFields(EbayApiInterface $component)
     {
         return $this->serializer->serialize($component, 'xml');
+    }
+
+
+    /*
+     * Convert a XML to array
+     * @param xml $xml
+     * @return SimpleXmlIterator object
+     */
+    private function xmlToarray($xml){
+        $xmlIterator = new \SimpleXmlIterator($xml, null);
+        return $this->xmlIteratorToArray($xmlIterator);
+    }
+
+    /*
+     * cover simpleXMLIterator and return array
+     * @param SimpleXmlIterator $simpleXmlIterator
+     * @return array
+     */
+    private function xmlIteratorToArray($simpleXmlIterator){
+        $aResponse = array();
+        for( $simpleXmlIterator->rewind(); $simpleXmlIterator->valid(); $simpleXmlIterator->next() ) {
+            if(!array_key_exists($simpleXmlIterator->key(), $aResponse)){
+                $aResponse[$simpleXmlIterator->key()] = array();
+            }
+            if($simpleXmlIterator->hasChildren()){
+                $aResponse[$simpleXmlIterator->key()][] = $this->xmlIteratorToArray($simpleXmlIterator->current());
+            }
+            else{
+                $aResponse[$simpleXmlIterator->key()][] = strval($simpleXmlIterator->current());
+            }
+        }
+        return $aResponse;
     }
 
 }

@@ -32,6 +32,7 @@ class GetCategoriesComponent extends EbayApiTradingComponent implements EbayApiI
     const URL_SANDBOX = 'https://api.sandbox.ebay.com/ws/api.dll';
     const URL_PRODUCT = 'https://api.ebay.com/ws/api.dll';
 
+
     /**
      * @Expose
      * @var string
@@ -65,6 +66,7 @@ class GetCategoriesComponent extends EbayApiTradingComponent implements EbayApiI
      * @SerializedName("DetailLevel")
      */
     protected $detailLevel;
+
     /**
      * @return array
      */

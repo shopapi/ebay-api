@@ -22,13 +22,14 @@ use Myw\EbayApiBundle\Type\RequesterCredentials;
  * @XmlNamespace(uri="urn:ebay:apis:eBLBaseComponents")
  * @ExclusionPolicy(value="all")
  */
-class EbayApiTradingComponent  {
+class EbayApiTradingComponent
+{
 
-    const URL_SANDBOX = 'https://api.sandbox.ebay.com/ws/api.dll';
-    const URL_PRODUCT = 'https://api.ebay.com/ws/api.dll';
-    const API_VERSION = 919;
-    const MODE_PRODUCT = 1;
-    const WARNING_LEVEL = "Low";
+    const URL_SANDBOX    = 'https://api.sandbox.ebay.com/ws/api.dll';
+    const URL_PRODUCT    = 'https://api.ebay.com/ws/api.dll';
+    const API_VERSION    = 919;
+    const MODE_PRODUCT   = 1;
+    const WARNING_LEVEL  = "Low";
 
     /**
      * @Expose
@@ -103,6 +104,7 @@ class EbayApiTradingComponent  {
 
     public function setMode($mode){
         $this->mode = $mode;
+
         return $this;
     }
 
@@ -113,16 +115,17 @@ class EbayApiTradingComponent  {
     public function setParameters($parameters){
         $this->parameters = $parameters;
 
-        if($this->getMode() == 0){
+        if ($this->getMode() == 0) {
             //sandbox
             $this->keys['app_name'] = $parameters['sandbox']['app_name'];
             $this->keys['dev_name'] = $parameters['sandbox']['dev_id'];
             $this->keys['cert_name'] = $parameters['sandbox']['cert_name'];
-        }else{
+        }else {
             $this->keys['app_name'] = $parameters['production']['app_name'];
             $this->keys['dev_name'] = $parameters['production']['dev_id'];
             $this->keys['cert_name'] = $parameters['production']['cert_name'];
         }
+
         return $this;
     }
 
@@ -132,6 +135,7 @@ class EbayApiTradingComponent  {
 
     public function setMethod($method){
         $this->method = $method;
+
         return $this;
     }
 
@@ -146,8 +150,7 @@ class EbayApiTradingComponent  {
     /**
      * @return string
      */
-    public function getErrorLanguage()
-    {
+    public function getErrorLanguage(){
         return $this->errorLanguage;
     }
 
@@ -155,8 +158,7 @@ class EbayApiTradingComponent  {
      * @param string $errorLanguage
      * @return $this
      */
-    public function setErrorLanguage($errorLanguage)
-    {
+    public function setErrorLanguage($errorLanguage){
         $this->errorLanguage = $errorLanguage;
 
         return $this;
@@ -165,8 +167,7 @@ class EbayApiTradingComponent  {
     /**
      * @return string
      */
-    public function getMessageID()
-    {
+    public function getMessageID(){
         return $this->messageID;
     }
 
@@ -174,8 +175,7 @@ class EbayApiTradingComponent  {
      * @param string $messageID
      * @return $this
      */
-    public function setMessageID($messageID)
-    {
+    public function setMessageID($messageID){
         $this->messageID = $messageID;
 
         return $this;
@@ -184,8 +184,7 @@ class EbayApiTradingComponent  {
     /**
      * @return array
      */
-    public function getOutputSelector()
-    {
+    public function getOutputSelector(){
         return $this->outputSelector;
     }
 
@@ -193,8 +192,7 @@ class EbayApiTradingComponent  {
      * @param array $outputSelector
      * @return $this
      */
-    public function setOutputSelector($outputSelector)
-    {
+    public function setOutputSelector($outputSelector){
         $this->outputSelector = $outputSelector;
 
         return $this;
@@ -203,8 +201,7 @@ class EbayApiTradingComponent  {
     /**
      * @return string
      */
-    public function getWarningLevel()
-    {
+    public function getWarningLevel(){
         return $this->warningLevel;
     }
 
@@ -212,8 +209,7 @@ class EbayApiTradingComponent  {
      * @param string $warningLevel
      * @return $this
      */
-    public function setWarningLevel($warningLevel)
-    {
+    public function setWarningLevel($warningLevel){
         $this->warningLevel = $warningLevel;
 
         return $this;
@@ -222,8 +218,7 @@ class EbayApiTradingComponent  {
     /**
      * @return RequesterCredentials
      */
-    public function getRequesterCredentials()
-    {
+    public function getRequesterCredentials(){
         return $this->requesterCredentials;
     }
 
@@ -231,8 +226,9 @@ class EbayApiTradingComponent  {
      * @param RequesterCredentials $requesterCredentials
      * @return $this
      */
-    public function setRequesterCredentials(RequesterCredentials $requesterCredentials)
-    {
+    public function setRequesterCredentials(
+        RequesterCredentials $requesterCredentials
+    ){
         $this->requesterCredentials = $requesterCredentials;
 
         return $this;
@@ -242,8 +238,7 @@ class EbayApiTradingComponent  {
      * @param string $value
      * @return $this
      */
-    public function setXmlRequest($value)
-    {
+    public function setXmlRequest($value){
         $this->xmlRequest = $value;
 
         return $this;
@@ -252,19 +247,17 @@ class EbayApiTradingComponent  {
     /**
      * @return XML
      */
-    public function getXmlRequest()
-    {
+    public function getXmlRequest(){
         return $this->xmlRequest;
     }
 
     /**
      * @return string
      */
-    public function getRequestUrl()
-    {
+    public function getRequestUrl(){
         if ($this->mode === self::MODE_PRODUCT) {
             return $this::URL_PRODUCT;
-        } else {
+        }else {
             return $this::URL_SANDBOX;
         }
     }
@@ -272,21 +265,19 @@ class EbayApiTradingComponent  {
     /**
      * @return array
      */
-    public function getHeaders()
-    {
-        return
-            [
-                'X-EBAY-API-CALL-NAME:' . $this->getMethod(),
-                'X-EBAY-API-SITEID:' . $this->siteId,
-                // Site 0 is for US
-                'X-EBAY-API-APP-NAME:' . $this->keys['app_name'],
-                'X-EBAY-API-DEV-NAME:' . $this->keys['dev_name'],
-                'X-EBAY-API-CERT-NAME:' . $this->keys['cert_name'],
-                'X-EBAY-API-COMPATIBILITY-LEVEL:' . $this->getVersion(),
-                'X-EBAY-API-REQUEST-ENCODING:XML',
-                // for a POST request, the response by default is in the same format as the request
-                'Content-Type:text/xml;charset=utf-8',
-            ];
+    public function getHeaders(){
+        return [
+            'X-EBAY-API-CALL-NAME:' . $this->getMethod(),
+            'X-EBAY-API-SITEID:' . $this->siteId,
+            // Site 0 is for US
+            'X-EBAY-API-APP-NAME:' . $this->keys['app_name'],
+            'X-EBAY-API-DEV-NAME:' . $this->keys['dev_name'],
+            'X-EBAY-API-CERT-NAME:' . $this->keys['cert_name'],
+            'X-EBAY-API-COMPATIBILITY-LEVEL:' . $this->getVersion(),
+            'X-EBAY-API-REQUEST-ENCODING:XML',
+            // for a POST request, the response by default is in the same format as the request
+            'Content-Type:text/xml;charset=utf-8',
+        ];
     }
 
     /**
@@ -295,6 +286,7 @@ class EbayApiTradingComponent  {
      */
     public function setVersion($version){
         $this->version = $version;
+
         return $this;
     }
 
