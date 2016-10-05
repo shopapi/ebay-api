@@ -13,21 +13,39 @@ use Myw\EbayApiBundle\Manager\EbayManagerInterface;
 use Myw\EbayApiBundle\Component\EbayComponentInterface;
 use Myw\EbayApiBundle\Call\MakeCall;
 
-class EbayApiConfigurator {
+/**
+ * Class EbayApiConfigurator
+ * @package Myw\EbayApiBundle\Configurator
+ */
+class EbayApiConfigurator
+{
 
+    /**
+     * @var EbayManagerInterface
+     */
     private $apiManager;
+    /**
+     * @var MakeCall
+     */
     private $call;
 
-    public function __construct(EbayManagerInterface $ebayApiManager, MakeCall $call )
+    /**
+     * EbayApiConfigurator constructor.
+     * @param EbayManagerInterface $ebayApiManager
+     * @param MakeCall             $call
+     */
+    public function __construct(EbayManagerInterface $ebayApiManager, MakeCall $call)
     {
         $this->apiManager = $ebayApiManager;
         $this->call = $call;
     }
 
+    /**
+     * @param EbayComponentInterface $ebayComponent
+     */
     public function configure(EbayComponentInterface $ebayComponent)
     {
-
-        $oComponent = $ebayComponent->instanceComponent($this->apiManager->getApi(), $this->apiManager->getMethod(), $this->apiManager->getMode() );
+        $oComponent = $ebayComponent->instanceComponent($this->apiManager->getApi(), $this->apiManager->getMethod(), $this->apiManager->getMode());
         $this->call->getResponse($oComponent);
     }
 }

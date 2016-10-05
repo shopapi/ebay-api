@@ -33,14 +33,14 @@ class BaseCall
     }
 
     /**
-     * @param string $apiName (e.g. Trading, Finding, etc.)
-     * @param string $callName
+     * @param string  $apiName  (e.g. Trading, Finding, etc.)
+     * @param string  $callName
      * @param integer $mode
      * @return object
      */
     public function getInstance($apiName, $callName, $mode = self::MODE_PRODUCT)
     {
-        $className = 'WebConsul\\EbayApiBundle\\Call\\' . $apiName . '\\' . ucfirst($callName) . 'Call';
+        $className = 'WebConsul\\EbayApiBundle\\Call\\'.$apiName.'\\'.ucfirst($callName).'Call';
         /** @var BaseCall $instance */
         $instance = new $className($this->parameters);
         $keys = ($mode === self::MODE_PRODUCT) ? $this->parameters['application_keys']['production'] : $this->parameters['application_keys']['sandbox'];

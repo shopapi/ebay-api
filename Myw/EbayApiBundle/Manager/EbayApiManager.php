@@ -13,18 +13,41 @@ use Myw\EbayApiBundle\Manager\EbayManagerInterface;
 use Myw\EbayApiBundle\Type\RequesterCredentials;
 use Myw\EbayApiBundle\Component\Trading\EbayApiTradingComponent;
 
-class EbayApiManager implements  EbayManagerInterface{
-
+/**
+ * Class EbayApiManager
+ * @package Myw\EbayApiBundle\Manager
+ */
+class EbayApiManager implements EbayManagerInterface
+{
     const MODE_SANDBOX = 0;
     const MODE_PRODUCT = 1;
 
+    /**
+     * @var
+     */
     public $parameters;
+    /**
+     * @var
+     */
     protected $api;
+    /**
+     * @var
+     */
     protected $method;
+    /**
+     * @var int
+     */
     protected $mode = 0;
 
-    public function getManager($api, $method, $mode){
-        $className = 'Myw\\EbayApiBundle\\Component\\' . $api . '\\' . ucfirst($method) . 'Component';
+    /**
+     * @param string  $api
+     * @param string  $method
+     * @param integer $mode
+     * @return mixed
+     */
+    public function getManager($api, $method, $mode)
+    {
+        $className = 'Myw\\EbayApiBundle\\Component\\'.$api.'\\'.ucfirst($method).'Component';
 
         $component = new $className($this->getParameters(), $mode, $method);
         $requesterCredentials = new RequesterCredentials();
@@ -40,17 +63,28 @@ class EbayApiManager implements  EbayManagerInterface{
         return $component;
     }
 
+    /**
+     * @param $configEbayApi
+     */
     public function setConfig($configEbayApi)
     {
         $this->setParameters($configEbayApi);
     }
 
+    /**
+     * @param $config
+     * @return $this
+     */
     public function setParameters($config)
     {
         $this->parameters = $config;
+
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getParameters()
     {
         return $this->parameters;

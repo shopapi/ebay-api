@@ -7,24 +7,46 @@
  */
 
 
-    namespace Myw\EbayApiBundle\Call;
+namespace Myw\EbayApiBundle\Call;
 
-    use Myw\EbayApiBundle\Component\EbayApiInterface;
-    use JMS\Serializer\Serializer;
-    use JMS\Serializer\SerializerBuilder;
+use Myw\EbayApiBundle\Component\EbayApiInterface;
+use JMS\Serializer\Serializer;
+use GuzzleHttp\Client;
 
-class MakeCall {
-
+/**
+ * Class MakeCall
+ * @package Myw\EbayApiBundle\Call
+ */
+class MakeCall
+{
+    /**
+     * @var Serializer
+     */
     private $serializer;
 
+    /**
+     * MakeCall constructor.
+     * @param Serializer $serializer
+     */
     public function __construct(Serializer $serializer)
     {
         $this->serializer = $serializer;
     }
 
+    /**
+     * @param EbayApiInterface $component
+     * @return array
+     */
     public function getResponse(EbayApiInterface $component)
     {
-
+        $timeout = 2.0;
+        if (isset($component->keys['timeout'])) {
+            $timeout = $component->keys['timeout'];
+        }
+        $client = new Client([
+            'base_uri' => $component->getRequestUrl(),
+            'timeout'  => $timeout,
+        ]);
         $xmlRequest = $this->getPostFields($component);
         $component->setXmlRequest($xmlRequest);
 
@@ -42,9 +64,14 @@ class MakeCall {
         curl_close($ch);
 
         $arrayResponse = $this->xmlToarray($data);
+
         return $arrayResponse;
     }
 
+    /**
+     * @param EbayApiInterface $component
+     * @return mixed|string
+     */
     private function getPostFields(EbayApiInterface $component)
     {
         return $this->serializer->serialize($component, 'xml');
@@ -56,8 +83,14 @@ class MakeCall {
      * @param xml $xml
      * @return SimpleXmlIterator object
      */
-    private function xmlToarray($xml){
+    /**
+     * @param $xml
+     * @return array
+     */
+    private function xmlToarray($xml)
+    {
         $xmlIterator = new \SimpleXmlIterator($xml, null);
+
         return $this->xmlIteratorToArray($xmlIterator);
     }
 
@@ -66,20 +99,25 @@ class MakeCall {
      * @param SimpleXmlIterator $simpleXmlIterator
      * @return array
      */
-    private function xmlIteratorToArray($simpleXmlIterator){
+    /**
+     * @param $simpleXmlIterator
+     * @return array
+     */
+    private function xmlIteratorToArray($simpleXmlIterator)
+    {
         $aResponse = array();
-        for( $simpleXmlIterator->rewind(); $simpleXmlIterator->valid(); $simpleXmlIterator->next() ) {
-            if(!array_key_exists($simpleXmlIterator->key(), $aResponse)){
+        for ($simpleXmlIterator->rewind(); $simpleXmlIterator->valid(); $simpleXmlIterator->next()) {
+            if (!array_key_exists($simpleXmlIterator->key(), $aResponse)) {
                 $aResponse[$simpleXmlIterator->key()] = array();
             }
-            if($simpleXmlIterator->hasChildren()){
+            if ($simpleXmlIterator->hasChildren()) {
                 $aResponse[$simpleXmlIterator->key()][] = $this->xmlIteratorToArray($simpleXmlIterator->current());
-            }
-            else{
+            } else {
                 $aResponse[$simpleXmlIterator->key()][] = strval($simpleXmlIterator->current());
             }
         }
+
         return $aResponse;
     }
-
 }
+

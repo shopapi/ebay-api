@@ -29,7 +29,7 @@ class EbayApiTradingComponent
     const URL_PRODUCT    = 'https://api.ebay.com/ws/api.dll';
     const API_VERSION    = 919;
     const MODE_PRODUCT   = 1;
-    const WARNING_LEVEL  = "Low";
+    const WARNING_LEVEL  = 'Low';
 
     /**
      * @Expose
@@ -37,6 +37,9 @@ class EbayApiTradingComponent
      */
     protected $version;
 
+    /**
+     * @var
+     */
     protected $xmlRequest;
     /**
      * @Exclude
@@ -96,22 +99,40 @@ class EbayApiTradingComponent
      */
     protected $requesterCredentials;
 
-    public function __construct($parameters, $mode, $method){
+    /**
+     * EbayApiTradingComponent constructor.
+     * @param $parameters
+     * @param $mode
+     * @param $method
+     */
+    public function __construct($parameters, $mode, $method)
+    {
         $this->setMode($mode);
         $this->setParameters($parameters);
         $this->setMethod($method);
     }
 
+    /**
+     * @param $mode
+     * @return $this
+     */
     public function setMode($mode){
         $this->mode = $mode;
 
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getMode(){
         return $this->mode;
     }
 
+    /**
+     * @param $parameters
+     * @return $this
+     */
     public function setParameters($parameters){
         $this->parameters = $parameters;
 
@@ -129,20 +150,33 @@ class EbayApiTradingComponent
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getParameters(){
         return $this->parameters;
     }
 
+    /**
+     * @param $method
+     * @return $this
+     */
     public function setMethod($method){
         $this->method = $method;
 
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getMethod(){
         return $this->method;
     }
 
+    /**
+     * @return mixed
+     */
     public function getKeys(){
         return $this->keys;
     }
